@@ -1791,7 +1791,7 @@ focus(XEvent *ev)
 int
 match(uint mask, uint state)
 {
-	return mask == XK_ANY_MOD || mask == (state & ~ignoremod);
+	return mask == XK_ANY_MOD || mask == (state & ~(Mod2Mask | XK_SWITCH_MOD));
 }
 
 char*
