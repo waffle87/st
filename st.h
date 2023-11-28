@@ -3,64 +3,55 @@
 #include <stdint.h>
 #include <sys/types.h>
 
-//#include <gd.h>
+// #include <gd.h>
 #include <glib.h>
 
 /* macros */
-#define LEN(a)			(sizeof(a) / sizeof(a)[0])
-#define BETWEEN(x, a, b)	((a) <= (x) && (x) <= (b))
-#define DIVCEIL(n, d)		(((n) + ((d) - 1)) / (d))
-#define DEFAULT(a, b)		(a) = (a) ? (a) : (b)
-#define LIMIT(x, a, b)		(x) = (x) < (a) ? (a) : (x) > (b) ? (b) : (x)
-#define ATTRCMP(a, b)		(((a).mode & (~ATTR_WRAP) & (~ATTR_LIGA)) != ((b).mode & (~ATTR_WRAP) & (~ATTR_LIGA)) || \
-				(a).fg != (b).fg || \
-				(a).bg != (b).bg)
-#define TIMEDIFF(t1, t2)	((t1.tv_sec-t2.tv_sec)*1000 + \
-				(t1.tv_nsec-t2.tv_nsec)/1E6)
-#define MODBIT(x, set, bit)	((set) ? ((x) |= (bit)) : ((x) &= ~(bit)))
+#define LEN(a) (sizeof(a) / sizeof(a)[0])
+#define BETWEEN(x, a, b) ((a) <= (x) && (x) <= (b))
+#define DIVCEIL(n, d) (((n) + ((d)-1)) / (d))
+#define DEFAULT(a, b) (a) = (a) ? (a) : (b)
+#define LIMIT(x, a, b) (x) = (x) < (a) ? (a) : (x) > (b) ? (b) : (x)
+#define ATTRCMP(a, b)                                                          \
+  (((a).mode & (~ATTR_WRAP) & (~ATTR_LIGA)) !=                                 \
+       ((b).mode & (~ATTR_WRAP) & (~ATTR_LIGA)) ||                             \
+   (a).fg != (b).fg || (a).bg != (b).bg)
+#define TIMEDIFF(t1, t2)                                                       \
+  ((t1.tv_sec - t2.tv_sec) * 1000 + (t1.tv_nsec - t2.tv_nsec) / 1E6)
+#define MODBIT(x, set, bit) ((set) ? ((x) |= (bit)) : ((x) &= ~(bit)))
 
-#define TRUECOLOR(r,g,b)	(1 << 24 | (r) << 16 | (g) << 8 | (b))
-#define IS_TRUECOL(x)		(1 << 24 & (x))
+#define TRUECOLOR(r, g, b) (1 << 24 | (r) << 16 | (g) << 8 | (b))
+#define IS_TRUECOL(x) (1 << 24 & (x))
 
 enum glyph_attribute {
-	ATTR_NULL       = 0,
-	ATTR_BOLD       = 1 << 0,
-	ATTR_FAINT      = 1 << 1,
-	ATTR_ITALIC     = 1 << 2,
-	ATTR_UNDERLINE  = 1 << 3,
-	ATTR_BLINK      = 1 << 4,
-	ATTR_REVERSE    = 1 << 5,
-	ATTR_INVISIBLE  = 1 << 6,
-	ATTR_STRUCK     = 1 << 7,
-	ATTR_WRAP       = 1 << 8,
-	ATTR_WIDE       = 1 << 9,
-	ATTR_WDUMMY     = 1 << 10,
- 	ATTR_BOXDRAW    = 1 << 11,
-	ATTR_LIGA       = 1 << 12,
-	ATTR_BOLD_FAINT = ATTR_BOLD | ATTR_FAINT,
+  ATTR_NULL = 0,
+  ATTR_BOLD = 1 << 0,
+  ATTR_FAINT = 1 << 1,
+  ATTR_ITALIC = 1 << 2,
+  ATTR_UNDERLINE = 1 << 3,
+  ATTR_BLINK = 1 << 4,
+  ATTR_REVERSE = 1 << 5,
+  ATTR_INVISIBLE = 1 << 6,
+  ATTR_STRUCK = 1 << 7,
+  ATTR_WRAP = 1 << 8,
+  ATTR_WIDE = 1 << 9,
+  ATTR_WDUMMY = 1 << 10,
+  ATTR_BOXDRAW = 1 << 11,
+  ATTR_LIGA = 1 << 12,
+  ATTR_BOLD_FAINT = ATTR_BOLD | ATTR_FAINT,
 };
 
 enum drawing_mode {
-	DRAW_NONE = 0,
-	DRAW_BG   = 1 << 0,
-	DRAW_FG   = 1 << 1,
+  DRAW_NONE = 0,
+  DRAW_BG = 1 << 0,
+  DRAW_FG = 1 << 1,
 };
 
-enum selection_mode {
-	SEL_IDLE = 0,
-	SEL_EMPTY = 1,
-	SEL_READY = 2
-};
+enum selection_mode { SEL_IDLE = 0, SEL_EMPTY = 1, SEL_READY = 2 };
 
-enum selection_type {
-	SEL_REGULAR = 1,
-	SEL_RECTANGULAR = 2
-};
+enum selection_type { SEL_REGULAR = 1, SEL_RECTANGULAR = 2 };
 
-enum selection_snap {
-	SNAP_WORD = 1,
-	SNAP_LINE = 2
-};
+enum selection_snap { SNAP_WORD = 1, SNAP_LINE = 2 };
 
 typedef unsigned char uchar;
 typedef unsigned int uint;
@@ -71,26 +62,26 @@ typedef uint_least32_t Rune;
 
 #define Glyph Glyph_
 typedef struct {
-	Rune u;           /* character code */
-	ushort mode;      /* attribute flags */
-	uint32_t fg;      /* foreground  */
-	uint32_t bg;      /* background  */
+  Rune u;      /* character code */
+  ushort mode; /* attribute flags */
+  uint32_t fg; /* foreground  */
+  uint32_t bg; /* background  */
 } Glyph;
 
 typedef Glyph *Line;
 
 typedef union {
-	int i;
-	uint ui;
-	float f;
-	const void *v;
+  int i;
+  uint ui;
+  float f;
+  const void *v;
 } Arg;
 
 typedef struct {
-	uint b;
-	uint mask;
-	void (*func)(const Arg *);
-	const Arg arg;
+  uint b;
+  uint mask;
+  void (*func)(const Arg *);
+  const Arg arg;
 } MouseKey;
 
 void die(const char *, ...);
@@ -138,7 +129,8 @@ ushort boxdrawindex(const Glyph *);
 #ifdef XFT_VERSION
 /* only exposed to x.c, otherwise we'll need Xft.h for the types */
 void boxdraw_xinit(Display *, Colormap, XftDraw *, Visual *);
-void drawboxes(int, int, int, int, XftColor *, XftColor *, const XftGlyphFontSpec *, int);
+void drawboxes(int, int, int, int, XftColor *, XftColor *,
+               const XftGlyphFontSpec *, int);
 #endif
 
 /* config.h globals */
