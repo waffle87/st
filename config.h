@@ -57,16 +57,15 @@ static KeySym mappedkeys[] = {-1};
 static uint ignoremod = Mod2Mask | XK_SWITCH_MOD;
 static uint forceselmod = ShiftMask;
 
-static Key key[] = {
-    {XK_Up, XK_ANY_MOD, "\033[A", 0, -1},
-    {XK_Up, XK_ANY_MOD, "\033OA", 0, +1},
-    {XK_Down, XK_ANY_MOD, "\033[B", 0, -1},
-    {XK_Down, XK_ANY_MOD, "\033OB", 0, +1},
-    {XK_Left, XK_ANY_MOD, "\033[D", 0, -1},
-    {XK_Left, XK_ANY_MOD, "\033OD", 0, +1},
-    {XK_Right, XK_ANY_MOD, "\033[C", 0, -1},
-    {XK_Right, XK_ANY_MOD, "\033OC", 0, +1},
-    {XK_BackSpace, XK_NO_MOD, "\177", 0, 0}};
+static Key key[] = {{XK_Up, XK_ANY_MOD, "\033[A", 0, -1},
+                    {XK_Up, XK_ANY_MOD, "\033OA", 0, +1},
+                    {XK_Down, XK_ANY_MOD, "\033[B", 0, -1},
+                    {XK_Down, XK_ANY_MOD, "\033OB", 0, +1},
+                    {XK_Left, XK_ANY_MOD, "\033[D", 0, -1},
+                    {XK_Left, XK_ANY_MOD, "\033OD", 0, +1},
+                    {XK_Right, XK_ANY_MOD, "\033[C", 0, -1},
+                    {XK_Right, XK_ANY_MOD, "\033OC", 0, +1},
+                    {XK_BackSpace, XK_NO_MOD, "\177", 0, 0}};
 
 static uint selmasks[] = {
     [SEL_RECTANGULAR] = Mod1Mask,
