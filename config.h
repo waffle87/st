@@ -27,15 +27,15 @@ unsigned int tabspaces = 4;
 float alpha = 1.0;
 
 static const char *colorname[] = {
-    "#3B4252", "#BF616A", "#A3BE8C", "#EBCB8B", "#81A1C1", "#B48EAD", "#88C0D0",
-    "#E5E9F0", "#4C566A", "#BF616A", "#A3BE8C", "#EBCB8B", "#81A1C1", "#B48EAD",
-    "#8FBCBB", "#ECEFF4", [255] = 0, "#D8DEE9", "#2E3440",
+    "#073642", "#dc322f", "#859900", "#b58900", "#268bd2", "#d33682",
+    "#2aa198", "#eee8d5", "#002b36", "#cb4b16", "#586e75", "#657b83",
+    "#839496", "#6c71c4", "#93a1a1", "#fdf6e3",
 };
 
-unsigned int defaultfg = 256;
-unsigned int defaultbg = 257;
-unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 256;
+unsigned int defaultfg = 12;
+unsigned int defaultbg = 8;
+unsigned int defaultcs = 14;
+static unsigned int defaultrcs = 15;
 static unsigned int cursorshape = 2;
 static unsigned int cols = 80;
 static unsigned int rows = 24;
