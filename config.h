@@ -1,6 +1,7 @@
 #pragma once
 
-static char *font = "JetBrainsMono Nerd Font:pixelsize=15:antialias=true:autohint=true";
+static char *font =
+    "JetBrainsMono Nerd Font:pixelsize=15:antialias=true:autohint=true";
 static int borderpx = 8;
 static char *shell = "/bin/zsh";
 char *utmp = NULL;
@@ -26,17 +27,15 @@ unsigned int tabspaces = 4;
 float alpha = 1.0;
 
 static const char *colorname[] = {
-    "#45475A",         "#F38BA8",         "#A6E3A1",        "#F9E2AF",
-    "#89B4FA",         "#F5C2E7",         "#94E2D5",        "#BAC2DE",
-    "#585B70",         "#F38BA8",         "#A6E3A1",        "#F9E2AF",
-    "#89B4FA",         "#F5C2E7",         "#94E2D5",        "#A6ADC8",
-    [256] = "#CDD6F4", [257] = "#1E1E2E", [258] = "#F5E0DC"
+    "#3B4252", "#BF616A", "#A3BE8C", "#EBCB8B", "#81A1C1", "#B48EAD", "#88C0D0",
+    "#E5E9F0", "#4C566A", "#BF616A", "#A3BE8C", "#EBCB8B", "#81A1C1", "#B48EAD",
+    "#8FBCBB", "#ECEFF4", [255] = 0, "#D8DEE9", "#2E3440",
 };
 
 unsigned int defaultfg = 256;
 unsigned int defaultbg = 257;
-unsigned int defaultcs = 258;
-static unsigned int defaultrcs = 258;
+unsigned int defaultcs = 256;
+static unsigned int defaultrcs = 256;
 static unsigned int cursorshape = 2;
 static unsigned int cols = 80;
 static unsigned int rows = 24;
