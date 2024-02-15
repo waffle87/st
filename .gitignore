@@ -2,3 +2,4 @@ st
 *.o
 *.orig
 *.rej
+*.gz
