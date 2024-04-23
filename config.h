@@ -51,7 +51,7 @@ MouseKey mkeys[] = {
 
 static Shortcut shortcuts[] = {
     {ControlMask | ShiftMask, XK_V, clippaste, {.i = 0}},
-};
+    {ControlMask | ShiftMask, XK_C, clipcopy, {.i = 0}}};
 
 static KeySym mappedkeys[] = {-1};
 static uint ignoremod = Mod2Mask | XK_SWITCH_MOD;
@@ -65,7 +65,7 @@ static Key key[] = {{XK_Up, XK_ANY_MOD, "\033[A", 0, -1},
                     {XK_Left, XK_ANY_MOD, "\033OD", 0, +1},
                     {XK_Right, XK_ANY_MOD, "\033[C", 0, -1},
                     {XK_Right, XK_ANY_MOD, "\033OC", 0, +1},
-                    {XK_BackSpace, XK_NO_MOD, "\177", 0, 0}};
+                    {XK_BackSpace, XK_ANY_MOD, "\177", 0, 0}};
 
 static uint selmasks[] = {
     [SEL_RECTANGULAR] = Mod1Mask,
