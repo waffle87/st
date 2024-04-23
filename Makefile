@@ -1,36 +1,48 @@
-# st - simple terminal
-# See LICENSE file for copyright and license details.
-.POSIX:
+VERSION = 0.9
+PREFIX = /usr/local
 
-include config.mk
+DEPS = fontconfig wayland-client wayland-cursor xkbcommon pixman-1
+XDG_SHELL_PROTO = `pkg-config --variable=pkgdatadir wayland-protocols`/stable/xdg-shell/xdg-shell.xml
 
-SRC = st.c x.c boxdraw.c hb.c
+INCS = -I. -I/usr/include `pkg-config --cflags ${DEPS}`
+LIBS = -L/usr/lib -lc -lm -lrt -lutil `pkg-config --libs ${DEPS}`
+
+CFLAGS += -g -std=c99 -pedantic -Wall -Wvariadic-macros -Os
+LDFLAGS += lib/wld/libwld.a -g ${LIBS}
+STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
+STCFLAGS = $(INCS) $(STCPPFLAGS) $(CFLAGS)
+STLDFLAGS = $(LIBS) $(LDFLAGS)
+
+SRC = st.c wl.c xdg-shell-protocol.c
 OBJ = $(SRC:.c=.o)
 
-all: st
+all: wld st
+
+xdg-shell-protocol.c:
+	@echo GEN $@
+	@wayland-scanner private-code $(XDG_SHELL_PROTO) $@
+
+xdg-shell-client-protocol.h:
+	@echo GEN $@
+	@wayland-scanner client-header $(XDG_SHELL_PROTO) $@
 
 .c.o:
 	$(CC) $(STCFLAGS) -c $<
 
-st.o: config.h st.h win.h
-x.o: arg.h config.h st.h win.h hb.h
-hb.o: st.h
-boxdraw.o: config.h st.h boxdraw_data.h
+st.o: st.h win.h
+wl.o: arg.h st.h win.h config.h xdg-shell-client-protocol.h
 
-$(OBJ): config.h config.mk
+$(OBJ): config.h
 
 st: $(OBJ)
 	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
 
-clean:
-	rm -f st *.o *.orig *.rej
+wld:
+	make -C lib/wld DRM_DRIVERS=intel
 
-dist: clean
-	mkdir -p st-$(VERSION)
-	cp -r Makefile readme.md config.mk arg.h hb.h win.h \
-		config.h boxdraw_data.h st.h $(SRC) st-$(VERSION)
-	tar -cf - st-$(VERSION) | gzip > st-$(VERSION).tar.gz
-	rm -rf st-$(VERSION)
+clean:
+	rm -f st $(OBJ) xdg-shell-*
+	make -C lib/wld clean
 
 install: st
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -39,5 +51,3 @@ install: st
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/st
-
-.PHONY: all clean dist install uninstall

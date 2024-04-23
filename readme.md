@@ -1,6 +1,6 @@
-## st (with some patches)
+## st adapted to wayland
 
 ![image](nord_image.png)
 
 ### dependencies
-libXft, libXext, harfbuzz, glib, freetype, fontconfig, JetBrainsMono Nerd Font
+fontconfig wayland-protocols xkbcommon pixman-1, JetBrainsMono Nerd Font

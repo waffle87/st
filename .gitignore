@@ -1,4 +1,5 @@
 st
+xdg-shell-*
 *.o
 *.orig
 *.rej
