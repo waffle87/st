@@ -1,33 +1,38 @@
-VERSION = 0.9
-PREFIX = /usr/local
+PREFIX = /usr
 
-DEPS = fontconfig wayland-client wayland-cursor xkbcommon pixman-1
+DEPS = wayland-client wayland-cursor xkbcommon wld
 XDG_SHELL_PROTO = `pkg-config --variable=pkgdatadir wayland-protocols`/stable/xdg-shell/xdg-shell.xml
+WLD_FLAGS = DRM_DRIVERS=intel PREFIX=/usr
 
-INCS = -I. -I/usr/include `pkg-config --cflags ${DEPS}`
-LIBS = -L/usr/lib -lc -lm -lrt -lutil `pkg-config --libs ${DEPS}`
+LDFLAGS = -L/usr/lib -lc -lm -lrt -lutil `pkg-config --libs ${DEPS}`
+CFLAGS = -I. -I/usr/include `pkg-config --cflags ${DEPS}` \
+         -DVERSION=\"0.9\" -D_XOPEN_SOURCE=600
 
-CFLAGS += -g -std=c99 -pedantic -Wall -Wvariadic-macros -Os
-LDFLAGS += lib/wld/libwld.a -g ${LIBS}
-STCPPFLAGS = -DVERSION=\"$(VERSION)\" -D_XOPEN_SOURCE=600
-STCFLAGS = $(INCS) $(STCPPFLAGS) $(CFLAGS)
-STLDFLAGS = $(LIBS) $(LDFLAGS)
 
 SRC = st.c wl.c xdg-shell-protocol.c
 OBJ = $(SRC:.c=.o)
 
+ifeq ($(if $(V),$(V),0), 0)
+	define quiet
+        @echo "  $1	$@"
+        @$(if $2,$2,$($1))
+    endef
+else
+    quiet = $(if $2,$2,$($1))
+endif
+
 all: wld st
 
 xdg-shell-protocol.c:
-	@echo GEN $@
+	$(call quiet,GEN)
 	@wayland-scanner private-code $(XDG_SHELL_PROTO) $@
 
 xdg-shell-client-protocol.h:
-	@echo GEN $@
+	$(call quiet,GEN)
 	@wayland-scanner client-header $(XDG_SHELL_PROTO) $@
 
 .c.o:
-	$(CC) $(STCFLAGS) -c $<
+	$(call quiet,CC) $(CFLAGS) -c $<
 
 st.o: st.h win.h
 wl.o: arg.h st.h win.h config.h xdg-shell-client-protocol.h
@@ -35,10 +40,10 @@ wl.o: arg.h st.h win.h config.h xdg-shell-client-protocol.h
 $(OBJ): config.h
 
 st: $(OBJ)
-	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
+	$(call quiet,CCLD,cc) -o $@ $(OBJ) $(LDFLAGS)
 
 wld:
-	make -C lib/wld DRM_DRIVERS=intel
+	make -sC lib/wld ${WLD_FLAGS}
 
 clean:
 	rm -f st $(OBJ) xdg-shell-*
