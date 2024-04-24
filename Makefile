@@ -1,13 +1,14 @@
 PREFIX = /usr
 
-DEPS = wayland-client wayland-cursor xkbcommon wld
+DEPS = wayland-client wayland-cursor xkbcommon \
+       fontconfig pixman-1 libdrm_intel
 XDG_SHELL_PROTO = `pkg-config --variable=pkgdatadir wayland-protocols`/stable/xdg-shell/xdg-shell.xml
 WLD_FLAGS = DRM_DRIVERS=intel PREFIX=/usr
 
-LDFLAGS = -L/usr/lib -lc -lm -lrt -lutil `pkg-config --libs ${DEPS}`
+LDFLAGS = -L/usr/lib -lc -lm -lrt -lutil \
+          `pkg-config --libs ${DEPS}` lib/wld/libwld.a
 CFLAGS = -I. -I/usr/include `pkg-config --cflags ${DEPS}` \
          -DVERSION=\"0.9\" -D_XOPEN_SOURCE=600
-
 
 SRC = st.c wl.c xdg-shell-protocol.c
 OBJ = $(SRC:.c=.o)
@@ -40,7 +41,7 @@ wl.o: arg.h st.h win.h config.h xdg-shell-client-protocol.h
 $(OBJ): config.h
 
 st: $(OBJ)
-	$(call quiet,CCLD,cc) -o $@ $(OBJ) $(LDFLAGS)
+	$(call quiet,LD,cc) -o $@ $(OBJ) $(LDFLAGS)
 
 wld:
 	make -sC lib/wld ${WLD_FLAGS}
