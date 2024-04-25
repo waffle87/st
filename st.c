@@ -1,4 +1,5 @@
-/* See LICENSE for license details. */
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -48,7 +49,7 @@
 #define TLINE(y)                                                               \
   ((y) < term.scr                                                              \
        ? term.hist[((y) + term.histi - term.scr + HISTSIZE + 1) % HISTSIZE]    \
-       : term.line[(y)-term.scr])
+       : term.line[(y) - term.scr])
 
 #define TLINE_HIST(y)                                                          \
   ((y) <= HISTSIZE - term.row + 2 ? term.hist[(y)]                             \

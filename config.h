@@ -1,3 +1,5 @@
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 #pragma once
 
 static char *font =

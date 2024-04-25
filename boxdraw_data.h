@@ -1,7 +1,6 @@
-/*
- * Copyright 2018 Avi Halachmi (:avih) avihpit@yahoo.com https://github.com/avih
- * MIT/X Consortium License
- */
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
+#pragma once
 
 /*
  * U+25XX codepoints data

@@ -1,8 +1,5 @@
-/*
- * Copyright 2018 Avi Halachmi (:avih) avihpit@yahoo.com https://github.com/avih
- * MIT/X Consortium License
- */
-
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 #include <X11/Xft/Xft.h>
 #include "st.h"
 #include "boxdraw_data.h"

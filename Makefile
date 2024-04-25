@@ -1,8 +1,12 @@
-# st - simple terminal
-# See LICENSE file for copyright and license details.
-.POSIX:
+PREFIX = /usr
 
-include config.mk
+DEPS = fontconfig harfbuzz
+
+CFLAGS = -I/usr/X11R6/include `pkg-config --cflags ${DEPS}` \
+         -DVERSION=\"0.9\" -D_XOPEN_SOURCE=600
+
+LDFLAGS = -L/usr/X11R6/lib -lm -lX11 -lXft \
+          `pkg-config --libs ${DEPS}`
 
 SRC = st.c x.c boxdraw.c hb.c
 OBJ = $(SRC:.c=.o)
@@ -10,27 +14,20 @@ OBJ = $(SRC:.c=.o)
 all: st
 
 .c.o:
-	$(CC) $(STCFLAGS) -c $<
+	cc $(CFLAGS) -c $<
 
 st.o: config.h st.h win.h
 x.o: arg.h config.h st.h win.h hb.h
 hb.o: st.h
 boxdraw.o: config.h st.h boxdraw_data.h
 
-$(OBJ): config.h config.mk
+$(OBJ): config.h
 
 st: $(OBJ)
-	$(CC) -o $@ $(OBJ) $(STLDFLAGS)
+	cc -o $@ $(OBJ) $(LDFLAGS)
 
 clean:
-	rm -f st *.o *.orig *.rej
-
-dist: clean
-	mkdir -p st-$(VERSION)
-	cp -r Makefile readme.md config.mk arg.h hb.h win.h \
-		config.h boxdraw_data.h st.h $(SRC) st-$(VERSION)
-	tar -cf - st-$(VERSION) | gzip > st-$(VERSION).tar.gz
-	rm -rf st-$(VERSION)
+	rm -f st $(OBJ) *.orig *.rej
 
 install: st
 	mkdir -p $(DESTDIR)$(PREFIX)/bin
@@ -39,5 +36,3 @@ install: st
 
 uninstall:
 	rm -f $(DESTDIR)$(PREFIX)/bin/st
-
-.PHONY: all clean dist install uninstall

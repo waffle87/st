@@ -1,7 +1,8 @@
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 #include <X11/Xft/Xft.h>
 #include <hb-ft.h>
 #include <hb.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 

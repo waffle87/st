@@ -1,3 +1,7 @@
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
+#pragma once
+
 #include <X11/Xft/Xft.h>
 #include <hb-ft.h>
 #include <hb.h>

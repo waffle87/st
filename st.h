@@ -1,15 +1,29 @@
-/* See LICENSE for license details. */
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
+#pragma once
 
 #include <stdint.h>
 #include <sys/types.h>
 
-// #include <gd.h>
-#include <glib.h>
-
 /* macros */
-#define LEN(a) (sizeof(a) / sizeof(a)[0])
+#define MIN(a, b)                                                              \
+  ({                                                                           \
+    __typeof__(a) _a = (a);                                                    \
+    __typeof__(b) _b = (b);                                                    \
+    _a < _b ? _a : _b;                                                         \
+  })
+#define MAX(a, b)                                                              \
+  ({                                                                           \
+    __typeof__(a) _a = (a);                                                    \
+    __typeof__(b) _b = (b);                                                    \
+    _a > _b ? _a : _b;                                                         \
+  })
+#define CHECK(value)                                                           \
+  (!__builtin_types_compatible_p(typeof((value)), typeof(&(value)[0])))
+#define LEN(a)                                                                 \
+  (__builtin_choose_expr(CHECK((a)), sizeof((a)) / sizeof((a)[0]), (void)0))
 #define BETWEEN(x, a, b) ((a) <= (x) && (x) <= (b))
-#define DIVCEIL(n, d) (((n) + ((d)-1)) / (d))
+#define DIVCEIL(n, d) (((n) + ((d) - 1)) / (d))
 #define DEFAULT(a, b) (a) = (a) ? (a) : (b)
 #define LIMIT(x, a, b) (x) = (x) < (a) ? (a) : (x) > (b) ? (b) : (x)
 #define ATTRCMP(a, b)                                                          \

@@ -1,4 +1,5 @@
-/* See LICENSE for license details. */
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 #include <errno.h>
 #include <math.h>
 #include <limits.h>
