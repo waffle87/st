@@ -1,4 +1,5 @@
-/* See LICENSE for license details. */
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 #include <ctype.h>
 #include <errno.h>
 #include <fcntl.h>
@@ -256,11 +257,13 @@ void *xrealloc(void *p, size_t len) {
   return p;
 }
 
-char *xstrdup(char *s) {
-  if ((s = strdup(s)) == NULL)
+char *xstrdup(const char *s) {
+  char *p;
+
+  if ((p = strdup(s)) == NULL)
     die("strdup: %s\n", strerror(errno));
 
-  return s;
+  return p;
 }
 
 size_t utf8decode(const char *c, Rune *u, size_t clen) {
@@ -687,7 +690,7 @@ void stty(char **args) {
     perror("Couldn't call stty");
 }
 
-int ttynew(char *line, char *cmd, char *out, char **args) {
+int ttynew(const char *line, char *cmd, const char *out, char **args) {
   int m, s;
 
   if (out) {

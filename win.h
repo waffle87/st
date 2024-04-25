@@ -1,4 +1,5 @@
-/* See LICENSE for license details. */
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 
 enum win_mode {
   MODE_VISIBLE = 1 << 0,

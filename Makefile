@@ -3,7 +3,7 @@ PREFIX = /usr
 DEPS = wayland-client wayland-cursor xkbcommon \
        fontconfig pixman-1 libdrm_intel
 XDG_SHELL_PROTO = `pkg-config --variable=pkgdatadir wayland-protocols`/stable/xdg-shell/xdg-shell.xml
-WLD_FLAGS = DRM_DRIVERS=intel PREFIX=/usr
+WLD_FLAGS = DRM_DRIVERS=intel
 
 LDFLAGS = -L/usr/lib -lc -lm -lrt -lutil \
           `pkg-config --libs ${DEPS}` lib/wld/libwld.a

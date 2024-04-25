@@ -3,3 +3,4 @@ xdg-shell-*
 *.o
 *.orig
 *.rej
+.gdb_history

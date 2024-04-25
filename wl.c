@@ -1,4 +1,5 @@
-/* See LICENSE for license details. */
+// Copyright 2024 @waffle87
+// SPDX-License-Identifier: MIT/X
 #include <errno.h>
 #include <fcntl.h>
 #include <libgen.h>
@@ -620,16 +621,6 @@ int match(uint mask, uint state) {
 char *kmap(xkb_keysym_t k, uint state) {
   Key *kp;
   int i;
-
-  /* Check for mapped keys out of X11 function keys. */
-  for (i = 0; i < LEN(mappedkeys); i++) {
-    if (mappedkeys[i] == k)
-      break;
-  }
-  if (i == LEN(mappedkeys)) {
-    if ((k & 0xFFFF) < 0xFD00)
-      return NULL;
-  }
 
   for (kp = key; kp < key + LEN(key); kp++) {
     if (kp->k != k)
