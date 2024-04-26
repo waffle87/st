@@ -53,7 +53,8 @@ MouseKey mkeys[] = {
 
 static Shortcut shortcuts[] = {
     {ControlMask | ShiftMask, XK_V, clippaste, {.i = 0}},
-    {ControlMask | ShiftMask, XK_C, clipcopy, {.i = 0}}};
+    {ControlMask | ShiftMask, XK_C, clipcopy, {.i = 0}},
+    {ControlMask, XK_t, newterm, {.i = 0}}};
 
 static KeySym mappedkeys[] = {-1};
 static uint ignoremod = Mod2Mask | XK_SWITCH_MOD;

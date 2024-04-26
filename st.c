@@ -22,6 +22,8 @@
 #include "st.h"
 #include "win.h"
 
+extern char *argv0;
+
 #if defined(__linux)
 #include <pty.h>
 #elif defined(__OpenBSD__) || defined(__NetBSD__) || defined(__APPLE__)
@@ -49,7 +51,7 @@
 #define TLINE(y)                                                               \
   ((y) < term.scr                                                              \
        ? term.hist[((y) + term.histi - term.scr + HISTSIZE + 1) % HISTSIZE]    \
-       : term.line[(y) - term.scr])
+       : term.line[(y)-term.scr])
 
 #define TLINE_HIST(y)                                                          \
   ((y) <= HISTSIZE - term.row + 2 ? term.hist[(y)]                             \
@@ -171,6 +173,7 @@ typedef struct {
 
 static void execsh(char *, char **);
 static char *getcwd_by_pid(pid_t pid);
+static int chdir_by_pid(pid_t pid);
 static void stty(char **);
 static void sigchld(int);
 static void ttywriteraw(const char *, size_t);
@@ -775,6 +778,7 @@ int ttynew(const char *line, char *cmd, const char *out, char **args) {
     if (pledge("stdio rpath tty proc", NULL) == -1)
       die("pledge\n");
 #endif
+    fcntl(m, F_SETFD, FD_CLOEXEC);
     close(s);
     cmdfd = m;
     signal(SIGCHLD, sigchld);
@@ -1002,9 +1006,21 @@ void newterm(const Arg *a) {
     die("fork failed: %s\n", strerror(errno));
     break;
   case 0:
-    chdir(getcwd_by_pid(pid));
-    execlp("st", "./st", NULL);
-    break;
+    switch (fork()) {
+    case -1:
+      fprintf(stderr, "fork failed: %s\n", strerror(errno));
+      _exit(1);
+      break;
+    case 0:
+      chdir_by_pid(pid);
+      execl("/proc/self/exe", argv0, NULL);
+      _exit(1);
+      break;
+    default:
+      _exit(0);
+    }
+  default:
+    wait(NULL);
   }
 }
 
@@ -1012,6 +1028,12 @@ static char *getcwd_by_pid(pid_t pid) {
   char buf[32];
   snprintf(buf, sizeof buf, "/proc/%d/cwd", pid);
   return realpath(buf, NULL);
+}
+
+static int chdir_by_pid(pid_t pid) {
+  char buf[32];
+  snprintf(buf, sizeof buf, "/proc/%ld/cwd", (long)pid);
+  return chdir(buf);
 }
 
 void kscrolldown(const Arg *a) {
