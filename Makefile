@@ -3,7 +3,7 @@ PREFIX = /usr
 DEPS = fontconfig harfbuzz
 
 CFLAGS = -I/usr/X11R6/include `pkg-config --cflags ${DEPS}` \
-         -DVERSION=\"0.9\" -D_XOPEN_SOURCE=600
+         -DVERSION=\"0.9\" -D_XOPEN_SOURCE=700
 
 LDFLAGS = -L/usr/X11R6/lib -lm -lX11 -lXft \
           `pkg-config --libs ${DEPS}`
