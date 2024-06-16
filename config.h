@@ -24,7 +24,7 @@ const int boxdraw = 1;
 const int boxdraw_bold = 1;
 const int boxdraw_braille = 1;
 static int bellvolume = 0;
-char *termname = "st";
+char *termname = "xterm-256color";
 unsigned int tabspaces = 4;
 float alpha = 1.0;
 
