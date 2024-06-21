@@ -1,4 +1,4 @@
-// Copyright 2024 @waffle87
+// Copyright 2024 jack@pngu.org
 // SPDX-License-Identifier: MIT/X
 #include <stdint.h>
 #include <sys/types.h>
@@ -25,7 +25,7 @@
 #define LEN(a)                                                                 \
   (__builtin_choose_expr(CHECK((a)), sizeof((a)) / sizeof((a)[0]), (void)0))
 #define BETWEEN(x, a, b) ((a) <= (x) && (x) <= (b))
-#define DIVCEIL(n, d) (((n) + ((d) - 1)) / (d))
+#define DIVCEIL(n, d) (((n) + ((d)-1)) / (d))
 #define DEFAULT(a, b) (a) = (a) ? (a) : (b)
 #define LIMIT(x, a, b) (x) = (x) < (a) ? (a) : (x) > (b) ? (b) : (x)
 #define ATTRCMP(a, b)                                                          \

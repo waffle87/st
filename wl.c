@@ -1,4 +1,4 @@
-// Copyright 2024 @waffle87
+// Copyright 2024 jack@pngu.org
 // SPDX-License-Identifier: MIT/X
 #include <errno.h>
 #include <fcntl.h>
@@ -317,7 +317,8 @@ static char *opt_title = NULL;
 
 static int oldbutton = 3; /* button event on startup: 3 = release */
 
-void xbell(void) { /* Do nothing, no bell in wayland. */ }
+void xbell(void) { /* Do nothing, no bell in wayland. */
+}
 
 void xsetpointermotion(int dummy) {
   /* Do nothing, not required under wayland. */
