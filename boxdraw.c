@@ -1,4 +1,4 @@
-// Copyright 2024 @waffle87
+// Copyright 2024 jack@pngu.org
 // SPDX-License-Identifier: MIT/X
 #include <X11/Xft/Xft.h>
 #include "st.h"
