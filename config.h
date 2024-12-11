@@ -1,6 +1,7 @@
 // Copyright 2024 jack@pngu.org
 // SPDX-License-Identifier: MIT/X
 #pragma once
+#include "colours.h"
 
 static char *font =
     "JetBrainsMono Nerd Font:pixelsize=15:antialias=true:autohint=true";
@@ -27,12 +28,6 @@ static int bellvolume = 0;
 char *termname = "xterm-256color";
 unsigned int tabspaces = 4;
 float alpha = 1.0;
-
-static const char *colorname[] = {
-    "#3B4252", "#BF616A", "#A3BE8C", "#EBCB8B", "#81A1C1", "#B48EAD", "#88C0D0",
-    "#E5E9F0", "#4C566A", "#BF616A", "#A3BE8C", "#EBCB8B", "#81A1C1", "#B48EAD",
-    "#8FBCBB", "#ECEFF4", [255] = 0, "#D8DEE9", "#2E3440",
-};
 
 unsigned int defaultfg = 256;
 unsigned int defaultbg = 257;

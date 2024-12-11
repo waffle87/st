@@ -1,5 +1,7 @@
 PREFIX = /usr
 
+COLOUR_SCHEME ?= nord
+
 DEPS = fontconfig harfbuzz
 
 CFLAGS = -I/usr/X11R6/include `pkg-config --cflags ${DEPS}` \
